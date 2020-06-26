@@ -1,4 +1,14 @@
 <div id="container">
   <strong>{{ name }}</strong>
-  <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+  <!-- <div class="tinder--cards" (pan)="handlePan($event)" (panend)="handlePanEnd($event)">
+    <div #tinderCard class="tinder--card" (transitionend)="handleShift()" *ngFor="let card of cards; let i = index"
+      [ngStyle]="{ zIndex: cards.length - i, transform: 'scale(' + (20 - i) / 20 + ') translateY(-' + 20 * i + 'px)' }">
+
+      <img #tinderCardImage [src]="card.img" (load)="tinderCardImage.style.opacity = 1">
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.description }}</p>
+
+    </div>
+  </div> -->
 </div>

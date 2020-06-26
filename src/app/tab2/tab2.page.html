@@ -1,17 +1,130 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="header__flex">
+    <div class="header__box">
+      <ion-tab-button tab="tab1">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-tab-button>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+      <ion-tab-button tab="tab2">
+        <ion-icon name="flame-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="tab3">
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+      </ion-tab-button>
+    </div>
+  </div>
+
+  <div id="container" [hidden]="!cards.length">
+    <div class="content__box">
+      <div #tinderCard class="tinder--card" 
+        *ngFor="let card of cards; let i = index" [ngStyle]="{ zIndex: cards.length - i }" 
+        (transitionend)="handleShift(i)"
+        (pan)="handlePan($event, i)"
+        (panend)="handlePanEnd($event, i)">
+        <div class="content__box-image">
+          <img #tinderCardImage [src]="card.img" (load)="tinderCardImage.style.opacity = 1">
+        </div>
+
+        <div class="content__box-content">
+          <div class="info__box">
+            <h3 class="info__name"><strong>{{ card?.name }}</strong> <span> 19</span></h3>
+            <p class="info__address">
+              <svg class="Sq(16px) Va(m)" viewBox="0 0 24 24" width="24px" height="24px" focusable="false"
+                aria-hidden="true" role="presentation">
+                <g stroke="#fff" stroke-width=".936" fill="none" fill-rule="evenodd">
+                  <path d="M19.695 9.518H4.427V21.15h15.268V9.52zM3.109 9.482h17.933L12.06 3.709 3.11 9.482z"></path>
+                  <path d="M9.518 21.15h5.086v-6.632H9.518z"></path>
+                </g>
+              </svg>
+              {{ card?.address }}</p>
+            <p class="info__location">
+              <svg class="Sq(16px) Va(m)" viewBox="0 0 24 24" width="24px" height="24px" focusable="false"
+                aria-hidden="true" role="presentation">
+                <g fill="#fff" stroke="#fff" stroke-width=".5" fill-rule="evenodd">
+                  <path
+                    d="M11.436 21.17l-.185-.165a35.36 35.36 0 0 1-3.615-3.801C5.222 14.244 4 11.658 4 9.524 4 5.305 7.267 2 11.436 2c4.168 0 7.437 3.305 7.437 7.524 0 4.903-6.953 11.214-7.237 11.48l-.2.167zm0-18.683c-3.869 0-6.9 3.091-6.9 7.037 0 4.401 5.771 9.927 6.897 10.972 1.12-1.054 6.902-6.694 6.902-10.95.001-3.968-3.03-7.059-6.9-7.059h.001z">
+                  </path>
+                  <path
+                    d="M11.445 12.5a2.945 2.945 0 0 1-2.721-1.855 3.04 3.04 0 0 1 .641-3.269 2.905 2.905 0 0 1 3.213-.645 3.003 3.003 0 0 1 1.813 2.776c-.006 1.653-1.322 2.991-2.946 2.993zm0-5.544c-1.378 0-2.496 1.139-2.498 2.542 0 1.404 1.115 2.544 2.495 2.546a2.52 2.52 0 0 0 2.502-2.535 2.527 2.527 0 0 0-2.499-2.545v-.008z">
+                  </path>
+                </g>
+              </svg>
+              {{ card?.location }}</p>
+          </div>
+        </div>
+
+        <div class="content__detail-icon">
+          <svg class="Expand" viewBox="0 0 24 24" width="24px" height="24px" focusable="false" aria-hidden="false"
+            aria-labelledby="bf35fdadf10ee0d0" role="img">
+            <path fill="#fff"
+              d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z">
+            </path>
+            <title id="bf35fdadf10ee0d0">Open Profile</title>
+          </svg>
+        </div>
+
+        <div class="tinder--status">
+          <div class="status__nope" [style.opacity]="card.cross? '0.8':'0'">
+            NOPE
+          </div>
+
+          <div class="status__like" [style.opacity]="card.heart? '0.8':'0'">
+            LIKE
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="actions-button__flex">
+    <div class="actions-button__box">
+      <ion-fab-button (click)="loadTinderCards()" class="btn--small btn--start" color="warning" size="small">
+        <svg class="Scale(.6) Expand" viewBox="0 0 24 24" width="24px" height="24px" focusable="false"
+          aria-hidden="true" role="presentation">
+          <path
+            d="M12.119 4.599V3.307c0-1.216-.76-1.672-1.824-.988l-.608.304L6.04 5.13l-.456.304c-1.064.76-1.064 1.748 0 2.28l.38.38c.987.76 2.66 1.824 3.647 2.432l.532.304c.912.76 1.748.228 1.748-.912V8.246a5.125 5.125 0 0 1 5.167 5.167c0 2.888-2.28 5.092-5.167 5.092-3.04 0-5.32-2.28-5.32-5.168 0-.912-.76-1.671-1.747-1.671-1.064 0-1.824.76-1.824 1.671C3 18.125 6.951 22 11.815 22c4.787 0 8.738-3.8 8.738-8.663.076-4.711-3.875-8.51-8.662-8.51l.228-.228z"
+            fill="#ffcd00"></path>
+        </svg>
+      </ion-fab-button>
+
+      <ion-fab-button (click)="userClickedButton($event, false)" class="btn--default btn--start" color="warning">
+        <svg class="Scale(.5) Expand" viewBox="0 0 24 24" width="24px" height="24px" focusable="false"
+          aria-hidden="true" role="presentation">
+          <path class=""
+            d="M14.926 12.56v-1.14l5.282 5.288c1.056.977 1.056 2.441 0 3.499-.813 1.057-2.438 1.057-3.413 0L11.512 15h1.138l-5.363 5.125c-.975 1.058-2.438 1.058-3.495 0-1.056-.813-1.056-2.44 0-3.417l5.201-5.288v1.14L3.873 7.27c-1.137-.976-1.137-2.44 0-3.417a1.973 1.973 0 0 1 3.251 0l5.282 5.207H11.27l5.444-5.207c.975-1.139 2.438-1.139 3.413 0 1.057.814 1.057 2.44 0 3.417l-5.2 5.288z"
+            fill="#fe675e"></path>
+        </svg>
+      </ion-fab-button>
+
+      <ion-fab-button class="btn--small btn--start" color="warning" size="small">
+        <svg class="Scale(.6) Expand" viewBox="0 0 24 24" width="24px" height="24px" focusable="false"
+          aria-hidden="true" role="presentation">
+          <path
+            d="M21.06 9.06l-5.47-.66c-.15 0-.39-.25-.47-.41l-2.34-5.25c-.47-.99-1.17-.99-1.56 0L8.87 7.99c0 .16-.23.4-.47.4l-5.47.66c-1.01 0-1.25.83-.46 1.65l4.06 3.77c.15.16.23.5.15.66L5.6 20.87c-.16.98.4 1.48 1.33.82l4.69-2.79h.78l4.69 2.87c.78.58 1.56 0 1.25-.98l-1.02-5.75s0-.4.23-.57l3.91-3.86c.78-.82.78-1.64-.39-1.64v.08z"
+            fill="#30b2ff"></path>
+        </svg>
+      </ion-fab-button>
+
+      <ion-fab-button (click)="userClickedButton($event, true)" class="btn--default btn--start" color="warning">
+        <svg class="Scale(.5) Expand" viewBox="0 0 24 24" width="24px" height="24px" focusable="false"
+          aria-hidden="true" role="presentation">
+          <path
+            d="M21.994 10.225c0-3.598-2.395-6.212-5.72-6.212-1.78 0-2.737.647-4.27 2.135C10.463 4.66 9.505 4 7.732 4 4.407 4 2 6.62 2 10.231c0 1.52.537 2.95 1.533 4.076l8.024 7.357c.246.22.647.22.886 0l7.247-6.58.44-.401.162-.182.168-.174a6.152 6.152 0 0 0 1.54-4.09"
+            fill="#1fe29a"></path>
+        </svg>
+      </ion-fab-button>
+
+      <ion-fab-button class="btn--small btn--start" color="warning" size="small">
+        <svg class="Scale(.6) Expand" viewBox="0 0 24 24" width="24px" height="24px" focusable="false"
+          aria-hidden="true" role="presentation">
+          <path
+            d="M15.979 14.018c.637-.638.51-1.275-.192-1.722l-1.275-.765c-.638-.383-1.148-1.275-.956-2.104L15.15 2.73c.191-.765-.128-.956-.765-.446L6.414 9.937c-.638.638-.51 1.275.19 1.722l1.276.765c.638.382 1.148 1.275.957 2.168l-1.658 6.632c-.191.829.191 1.02.765.446l8.035-7.652z"
+            fill="#ae53e7"></path>
+        </svg>
+      </ion-fab-button>
+    </div>
+  </div>
 </ion-content>
